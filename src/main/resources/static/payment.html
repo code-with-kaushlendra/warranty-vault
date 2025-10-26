@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout - Warranty Vault</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <span class="logo-icon">🔐</span>
+      <span class="logo-text">Warranty Vault</span>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="individuals.html" class="nav-link">For Individuals</a>
+      <a href="business.html" class="nav-link">For Business</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Checkout Section -->
+<section class="checkout-section">
+  <div class="container">
+    <h1 class="page-title">Secure Checkout</h1>
+
+    <div class="checkout-grid">
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="summary-item">
+          <span>Selected Plan:</span>
+          <strong id="planName">Smart Guardian</strong>
+        </div>
+        <div class="summary-item">
+          <span>Plan Price:</span>
+          <strong id="planPrice">₹199</strong>
+        </div>
+        <div class="summary-item">
+          <span>GST (18%):</span>
+          <strong id="gstAmount">₹35.82</strong>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-item total">
+          <span>Total Amount:</span>
+          <strong id="totalAmount">₹234.82</strong>
+        </div>
+        <div class="security-badge">
+          <span class="lock-icon">🔒</span>
+          <div>
+            <p><strong>Your payment is secured</strong></p>
+            <p>256-bit SSL encryption. We do not store your card details.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <div class="payment-form">
+        <h2>Payment Details</h2>
+
+        <!-- Payment Method Selection -->
+        <div class="payment-methods">
+          <label class="method-option active">
+            <input type="radio" name="paymentMethod" value="card" checked>
+            <span class="method-icon">💳</span>
+            <span>Credit/Debit Card</span>
+          </label>
+          <label class="method-option">
+            <input type="radio" name="paymentMethod" value="upi">
+            <span class="method-icon">📱</span>
+            <span>UPI</span>
+          </label>
+          <label class="method-option">
+            <input type="radio" name="paymentMethod" value="netbanking">
+            <span class="method-icon">🏦</span>
+            <span>Net Banking</span>
+          </label>
+          <label class="method-option">
+            <input type="radio" name="paymentMethod" value="wallet">
+            <span class="method-icon">💰</span>
+            <span>Wallet</span>
+          </label>
+        </div>
+
+        <!-- Card Payment Form -->
+        <form id="paymentForm" class="form-group">
+          <div class="form-field">
+            <label>Cardholder Name</label>
+            <input type="text" id="cardholderName" placeholder="John Doe" required>
+          </div>
+
+          <div class="form-field">
+            <label>Card Number</label>
+            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label>Expiry Date</label>
+              <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            <div class="form-field">
+              <label>CVV</label>
+              <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+            </div>
+          </div>
+
+          <div class="form-field checkbox">
+            <input type="checkbox" id="termsCheckbox" required>
+            <label for="termsCheckbox">I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large">Pay Now & Activate My Plan</button>
+        </form>
+
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+          <div class="badge">
+            <span class="badge-icon">🏦</span>
+            <span>Razorpay</span>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">🏛️</span>
+            <span>ICICI Bank</span>
+          </div>
+          <div class="badge">
+            <span class="badge-icon">✓</span>
+            <span>Verisign</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Warranty Vault</h4>
+        <p>Your trusted warranty management partner</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="individuals.html">For Individuals</a></li>
+          <li><a href="business.html">For Business</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>support@warrantyvault.in</p>
+        <p>1800-XXX-XXXX</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Warranty Vault. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/payment.js"></script>
+</body>
+</html>
