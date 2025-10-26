@@ -85,6 +85,7 @@
     gap: 40px;
   }
 
+  /* Updated footer grid for tablets */
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
@@ -100,6 +101,31 @@
 
   .cta-section h2 {
     font-size: 32px;
+  }
+
+  /* Blog Grid */
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Benefits Grid */
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Categories Grid */
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Articles List */
+  .articles-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Support Options */
+  .support-options {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -450,6 +476,7 @@
     font-size: 22px;
   }
 
+  /* Updated footer grid for mobile - single column layout */
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -464,10 +491,142 @@
     font-size: 12px;
   }
 
+  /* Stack social icons horizontally on mobile */
+  .social-links {
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .footer-bottom-content {
+    gap: 8px;
+  }
+
   .notification {
     left: 20px;
     right: 20px;
     padding: 15px 20px;
+  }
+
+  /* Policy Pages */
+  .policy-header h1 {
+    font-size: 28px;
+  }
+
+  .policy-section h2 {
+    font-size: 22px;
+  }
+
+  .policy-section p,
+  .policy-section ul li {
+    font-size: 14px;
+  }
+
+  /* Blog Grid */
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-card h3 {
+    font-size: 18px;
+  }
+
+  .blog-content {
+    padding: 20px;
+  }
+
+  /* Careers */
+  .careers-header h1 {
+    font-size: 28px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefit-card {
+    padding: 25px 20px;
+  }
+
+  .position-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .position-header h3 {
+    font-size: 20px;
+  }
+
+  .position-card {
+    padding: 25px 20px;
+  }
+
+  /* Help Center */
+  .help-header h1 {
+    font-size: 28px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input,
+  .search-box button {
+    width: 100%;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    padding: 25px 20px;
+  }
+
+  .articles-list {
+    grid-template-columns: 1fr;
+  }
+
+  .article-item {
+    padding: 20px;
+  }
+
+  .support-options {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-support {
+    padding: 40px 20px;
+  }
+
+  /* FAQ */
+  .faq-header h1 {
+    font-size: 28px;
+  }
+
+  .faq-section h2 {
+    font-size: 22px;
+  }
+
+  .faq-question {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .faq-answer {
+    padding: 0 15px;
+  }
+
+  .faq-item.active .faq-answer {
+    padding: 15px;
+  }
+
+  .faq-answer p {
+    font-size: 13px;
   }
 }
 
@@ -489,5 +648,44 @@
   .btn-large {
     padding: 12px 24px;
     font-size: 14px;
+  }
+
+  /* Extra small footer adjustments */
+  .footer-col h4 {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  .footer-col a {
+    font-size: 11px;
+  }
+
+  .social-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 11px;
+  }
+
+  .policy-header h1,
+  .blog-header h1,
+  .careers-header h1,
+  .help-header h1,
+  .faq-header h1 {
+    font-size: 22px;
+  }
+
+  .policy-section h2,
+  .faq-section h2 {
+    font-size: 18px;
+  }
+
+  .position-header h3,
+  .category-card h3,
+  .benefit-card h3 {
+    font-size: 16px;
   }
 }
