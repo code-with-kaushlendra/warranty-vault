@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warranty Vault - Your Life's Warranties, Simplified</title>
+    <title>Login - Warranty Vault</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
@@ -21,6 +21,7 @@
             <a href="business.html" class="nav-link">For Business</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="contact.html" class="nav-link">Contact</a>
+
         </div>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -29,101 +30,101 @@
         </div>
     </div>
 </nav>
+<!-- Login Section -->
+<section class="auth-section">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your warranty vault</p>
+            </div>
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1 class="hero-title">Your Life's Warranties, Simplified</h1>
-        <p class="hero-subtitle">Never lose a warranty again. Digitize, organize, and get smart reminders for all your products—from phones to cars—in one secure place.</p>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
 
-        <div class="hero-buttons">
-            <button class="btn btn-primary" onclick="window.location.href='login.html'">
-                <span class="btn-icon">👤</span> For Individuals
-            </button>
-            <button class="btn btn-secondary" onclick="window.location.href='login.html'">
-                <span class="btn-icon">🏢</span> For Businesses
-            </button>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+
+                <a href="#" class="forgot-password">Forgot Password?</a>
+
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+
+            <div class="auth-divider">
+                <span>or</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn google-btn">
+                    <span>🔵</span> Sign in with Google
+                </button>
+                <button class="social-btn microsoft-btn">
+                    <span>⬜</span> Sign in with Microsoft
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html" class="auth-link">Sign up here</a></p>
+            </div>
         </div>
-    </div>
-    <div class="hero-visual">
-        <div class="floating-card card-1">
-            <div class="card-icon">📱</div>
-            <p>iPhone 14 Pro</p>
-        </div>
-        <div class="floating-card card-2">
-            <div class="card-icon">🚗</div>
-            <p>Car Warranty</p>
-        </div>
-        <div class="floating-card card-3">
-            <div class="card-icon">💻</div>
-            <p>Laptop</p>
+
+        <div class="auth-benefits">
+            <h2>Why Choose Warranty Vault?</h2>
+            <ul class="benefits-list">
+                <li>
+                    <span class="benefit-icon">✓</span>
+                    <span>Secure cloud storage for all warranties</span>
+                </li>
+                <li>
+                    <span class="benefit-icon">✓</span>
+                    <span>Access warranties anytime, anywhere</span>
+                </li>
+                <li>
+                    <span class="benefit-icon">✓</span>
+                    <span>Never lose important documents</span>
+                </li>
+                <li>
+                    <span class="benefit-icon">✓</span>
+                    <span>Easy claim management</span>
+                </li>
+                <li>
+                    <span class="benefit-icon">✓</span>
+                    <span>24/7 customer support</span>
+                </li>
+            </ul>
         </div>
     </div>
 </section>
 
-<!-- Value Propositions -->
-<section class="value-props">
-    <div class="container">
-        <h2 class="section-title">Why Choose Warranty Vault?</h2>
-        <div class="props-grid">
-            <div class="prop-card">
-                <div class="prop-icon">📁</div>
-                <h3>Digital Vault</h3>
-                <p>Upload warranties for any product. Bills, cards, PDFs—we store them all securely.</p>
-            </div>
-            <div class="prop-card">
-                <div class="prop-icon">🔔</div>
-                <h3>Smart Alerts</h3>
-                <p>Get reminded before your warranty expires via WhatsApp, SMS, or App Notification.</p>
-            </div>
-            <div class="prop-card">
-                <div class="prop-icon">⚡</div>
-                <h3>Easy Claims</h3>
-                <p>One-click service requests and direct links to customer care for hassle-free claims.</p>
-            </div>
-            <div class="prop-card">
-                <div class="prop-icon">🔒</div>
-                <h3>Always Secure</h3>
-                <p>Bank-level security to protect your data. Your privacy is our priority.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- How It Works -->
-<section class="how-it-works">
-    <div class="container">
-        <h2 class="section-title">How It Works</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Add</h3>
-                <p>Click a picture of your bill, upload a PDF, or scan a QR code.</p>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>Organize</h3>
-                <p>Our AI automatically reads the product, dates, and details.</p>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>Relax</h3>
-                <p>We remind you. You claim effortlessly.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <h2>Start Protecting Your Investments Today!</h2>
-        <p>Join thousands of users who trust Warranty Vault with their warranties</p>
-        <button class="btn btn-primary btn-large" onclick="window.location.href='register.html'">Sign Up for Free</button>
-    </div>
-</section>
 
 <!-- Footer -->
 <footer class="footer">
@@ -190,5 +191,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Warranty Vault</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <span class="logo-icon">🔐</span>
+            <span class="logo-text">Warranty Vault</span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="individuals.html" class="nav-link">For Individuals</a>
+            <a href="business.html" class="nav-link">For Business</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Dashboard Header -->
+<section class="dashboard-header">
+    <div class="container">
+        <div class="header-content">
+            <div>
+                <h1>Welcome back, <span id="userName">User</span>! 👋</h1>
+                <p>Manage your warranties and stay on top of coverage</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.location.href='vault-upload.html'">
+                    <span class="btn-icon">📤</span> Upload Warranty
+                </button>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dashboard Stats -->
+<section class="dashboard-stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Total Warranties</h3>
+                    <p class="stat-number" id="totalWarranties">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3>Active</h3>
+                    <p class="stat-number" id="activeWarranties">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏰</div>
+                <div class="stat-content">
+                    <h3>Expiring Soon</h3>
+                    <p class="stat-number" id="expiringSoon">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💾</div>
+                <div class="stat-content">
+                    <h3>Storage Used</h3>
+                    <p class="stat-number" id="storageUsed">0 MB</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Plan Section -->
+<section class="plan-section">
+    <div class="container">
+        <div class="plan-container">
+            <!-- Current Plan Info -->
+            <div class="plan-info" id="planInfo">
+                <h2>Your Current Plan</h2>
+                <div class="plan-card-active">
+                    <span class="plan-badge" id="planBadge">Free Plan</span>
+                    <h3 id="planName">Free</h3>
+                    <p id="planDescription">Perfect for getting started with warranty management</p>
+
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="check-icon">✓</span>
+                            <span id="feature1">Up to 10 warranties</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="check-icon">✓</span>
+                            <span id="feature2">Basic search functionality</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="check-icon">✓</span>
+                            <span id="feature3">Email reminders</span>
+                        </div>
+                        <div class="feature-item disabled">
+                            <span class="check-icon">✗</span>
+                            <span>Advanced analytics</span>
+                        </div>
+                        <div class="feature-item disabled">
+                            <span class="check-icon">✗</span>
+                            <span>Team management</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-upgrade" id="upgradeBtn" onclick="showUpgradeModal()">
+                        <span class="btn-icon">⭐</span> Upgrade Plan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upgrade Options -->
+            <div class="upgrade-options" id="upgradeOptions" style="display: none;">
+                <h2>Choose Your Plan</h2>
+                <div class="upgrade-plans">
+                    <div class="upgrade-card">
+                        <h3>Individual</h3>
+                        <div class="price">₹299<span>/month</span></div>
+                        <ul class="upgrade-features">
+                            <li>✓ Unlimited warranties</li>
+                            <li>✓ Advanced search</li>
+                            <li>✓ Email & SMS reminders</li>
+                            <li>✓ Document sharing</li>
+                            <li>✓ Mobile app access</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="selectPlan('individual')">Select Plan</button>
+                    </div>
+                    <div class="upgrade-card featured">
+                        <h3>Business</h3>
+                        <div class="price">₹999<span>/month</span></div>
+                        <ul class="upgrade-features">
+                            <li>✓ Unlimited warranties</li>
+                            <li>✓ Team management</li>
+                            <li>✓ Advanced analytics</li>
+                            <li>✓ Priority support</li>
+                            <li>✓ API access</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="selectPlan('business')">Select Plan</button>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="hideUpgradeModal()" style="width: 100%; margin-top: 20px;">Back to Current Plan</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Warranty Files Section -->
+<section class="warranty-files-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Your Warranties</h2>
+            <div class="filter-controls">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search warranties..." onkeyup="filterWarranties()">
+                <select id="filterStatus" class="filter-select" onchange="filterWarranties()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="expiring">Expiring Soon</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="files-grid" id="filesGrid">
+            <div class="empty-state">
+                <p>📁 No warranties uploaded yet</p>
+                <p>Start by uploading your first warranty document</p>
+                <button class="btn btn-primary" onclick="window.location.href='vault-upload.html'">Upload Now</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reminders Section -->
+<section class="reminders-section">
+    <div class="container">
+        <h2>Important Reminders</h2>
+        <div class="reminders-grid" id="remindersGrid">
+            <div class="empty-reminders">✓ All set! No reminders at this time.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Company Section -->
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal Section -->
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Section -->
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="help-center.html">Help Center</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Media Section -->
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/ravindrapratapgupta" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
+                        <span>in</span>
+                    </a>
+                    <a href="https://twitter.com/ravindra9" target="_blank" rel="noopener noreferrer" class="social-icon" title="Twitter">
+                        <span>𝕏</span>
+                    </a>
+                    <a href=" https://www.facebook.com/p/Dr-Ravindra-Pratap-Gupta-100063541372506/" target="_blank" rel="noopener noreferrer" class="social-icon" title="Facebook">
+                        <span>f</span>
+                    </a>
+                    <a href="https://www.instagram.com/ravindrapratapgupta9/" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
+                        <span>📷</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 Warranty Vault. All rights reserved.</p>
+                <p class="footer-tagline">Your trusted warranty management partner</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

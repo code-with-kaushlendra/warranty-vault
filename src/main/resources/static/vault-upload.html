@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Warranty - Warranty Vault</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <span class="logo-icon">🔐</span>
+      <span class="logo-text">Warranty Vault</span>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="individuals.html" class="nav-link">For Individuals</a>
+      <a href="business.html" class="nav-link">For Business</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Vault Upload Section -->
+<section class="vault-section">
+  <div class="container">
+    <div class="vault-header">
+      <h1>Upload Your Warranty</h1>
+      <p>Securely store and manage all your warranty documents in one place</p>
+    </div>
+
+    <div class="vault-content">
+      <!-- Upload Form -->
+      <div class="upload-card">
+        <form class="upload-form" id="uploadForm">
+          <!-- Product Information -->
+          <div class="form-section">
+            <h2>Product Information</h2>
+
+            <div class="form-group">
+              <label for="productName">Product Name *</label>
+              <input
+                      type="text"
+                      id="productName"
+                      name="productName"
+                      placeholder="e.g., Samsung 55-inch Smart TV"
+                      required
+              >
+              <span class="error-message" id="productNameError"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" name="category" required>
+                  <option value="">Select Category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="appliances">Appliances</option>
+                  <option value="furniture">Furniture</option>
+                  <option value="automotive">Automotive</option>
+                  <option value="mobile">Mobile & Gadgets</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="error-message" id="categoryError"></span>
+              </div>
+              <div class="form-group">
+                <label for="brand">Brand</label>
+                <input
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        placeholder="e.g., Samsung"
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="purchaseDate">Purchase Date *</label>
+                <input
+                        type="date"
+                        id="purchaseDate"
+                        name="purchaseDate"
+                        required
+                >
+                <span class="error-message" id="purchaseDateError"></span>
+              </div>
+              <div class="form-group">
+                <label for="warrantyExpiry">Warranty Expiry Date *</label>
+                <input
+                        type="date"
+                        id="warrantyExpiry"
+                        name="warrantyExpiry"
+                        required
+                >
+                <span class="error-message" id="warrantyExpiryError"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="serialNumber">Serial Number / Model Number</label>
+              <input
+                      type="text"
+                      id="serialNumber"
+                      name="serialNumber"
+                      placeholder="Enter serial or model number"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="purchasePrice">Purchase Price</label>
+              <div class="price-wrapper">
+                <span class="currency">₹</span>
+                <input
+                        type="number"
+                        id="purchasePrice"
+                        name="purchasePrice"
+                        placeholder="0.00"
+                        min="0"
+                        step="0.01"
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Additional Notes</label>
+              <textarea
+                      id="notes"
+                      name="notes"
+                      placeholder="Add any additional information about the warranty..."
+                      rows="3"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Document Upload -->
+          <div class="form-section">
+            <h2>Upload Warranty Document</h2>
+
+            <div class="file-upload-area" id="fileUploadArea">
+              <div class="upload-icon">📄</div>
+              <h3>Drag and drop your warranty document here</h3>
+              <p>or</p>
+              <label for="warrantyFile" class="btn btn-secondary">Browse Files</label>
+              <input
+                      type="file"
+                      id="warrantyFile"
+                      name="warrantyFile"
+                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                      hidden
+                      required
+              >
+              <p class="file-info">Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 10MB)</p>
+            </div>
+
+            <div class="file-preview" id="filePreview" style="display: none;">
+              <div class="preview-item">
+                <span class="file-icon">📎</span>
+                <div class="file-details">
+                  <p class="file-name" id="fileName"></p>
+                  <p class="file-size" id="fileSize"></p>
+                </div>
+                <button type="button" class="remove-file" id="removeFile">✕</button>
+              </div>
+            </div>
+
+            <span class="error-message" id="fileError"></span>
+          </div>
+
+          <!-- Additional Documents -->
+          <div class="form-section">
+            <h2>Additional Documents (Optional)</h2>
+            <p class="section-description">Upload invoice, receipt, or other related documents</p>
+
+            <div class="file-upload-area" id="additionalUploadArea">
+              <div class="upload-icon">📎</div>
+              <h3>Add additional documents</h3>
+              <p>or</p>
+              <label for="additionalFiles" class="btn btn-secondary">Browse Files</label>
+              <input
+                      type="file"
+                      id="additionalFiles"
+                      name="additionalFiles"
+                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                      multiple
+                      hidden
+              >
+              <p class="file-info">You can upload multiple files</p>
+            </div>
+
+            <div class="additional-files-list" id="additionalFilesList"></div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">
+              <span>🔒</span> Upload & Secure Warranty
+            </button>
+            <button type="reset" class="btn btn-outline">Clear Form</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sidebar - Tips & Info -->
+      <div class="vault-sidebar">
+        <div class="info-card">
+          <h3>Why Upload Your Warranty?</h3>
+          <ul class="info-list">
+            <li>Never lose important warranty documents</li>
+            <li>Quick access during product issues</li>
+            <li>Organized in one secure location</li>
+            <li>Easy claim management</li>
+            <li>Automatic expiry reminders</li>
+          </ul>
+        </div>
+
+        <div class="info-card">
+          <h3>Supported File Types</h3>
+          <ul class="file-types">
+            <li>📄 PDF Documents</li>
+            <li>🖼️ JPG/PNG Images</li>
+            <li>📝 Word Documents</li>
+            <li>📊 Excel Files</li>
+          </ul>
+        </div>
+
+        <div class="info-card security-card">
+          <h3>🔐 Your Data is Secure</h3>
+          <p>All documents are encrypted with military-grade security. Only you can access your warranty vault.</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Need Help?</h3>
+          <p>Check our <a href="help-center.html">Help Center</a> or <a href="contact.html">contact support</a> for assistance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>✓ Warranty Uploaded Successfully!</h2>
+    </div>
+    <div class="modal-body">
+      <p>Your warranty document has been securely stored in your vault.</p>
+      <p>You can now access it anytime from your dashboard.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" id="closeModal">Go to Dashboard</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Company Section -->
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal Section -->
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="terms-of-service.html">Terms of Service</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+          <li><a href="refund-policy.html">Refund Policy</a></li>
+        </ul>
+      </div>
+
+      <!-- Support Section -->
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="help-center.html">Help Center</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Social Media Section -->
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://linkedin.com/in/ravindrapratapgupta" target="_blank" rel="noopener noreferrer" class="social-icon" title="LinkedIn">
+            <span>in</span>
+          </a>
+          <a href="https://twitter.com/ravindra9" target="_blank" rel="noopener noreferrer" class="social-icon" title="Twitter">
+            <span>𝕏</span>
+          </a>
+          <a href=" https://www.facebook.com/p/Dr-Ravindra-Pratap-Gupta-100063541372506/" target="_blank" rel="noopener noreferrer" class="social-icon" title="Facebook">
+            <span>f</span>
+          </a>
+          <a href="https://www.instagram.com/ravindrapratapgupta9/" target="_blank" rel="noopener noreferrer" class="social-icon" title="Instagram">
+            <span>📷</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2025 Warranty Vault. All rights reserved.</p>
+        <p class="footer-tagline">Your trusted warranty management partner</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script src="js/main.js"></script>
+<script src="js/vault.js"></script>
+</body>
+</html>

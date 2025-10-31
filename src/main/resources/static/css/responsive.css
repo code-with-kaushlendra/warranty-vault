@@ -127,6 +127,77 @@
   .support-options {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .auth-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .auth-card {
+    padding: 40px 30px;
+  }
+
+  .auth-benefits {
+    padding: 30px;
+  }
+
+  .vault-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .upload-card {
+    padding: 40px 30px;
+  }
+
+  .vault-sidebar {
+    gap: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Adding dashboard responsive styles */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .upgrade-plans {
+    grid-template-columns: 1fr;
+  }
+
+  .upgrade-card.featured {
+    transform: scale(1);
+  }
+
+  .files-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reminders-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-controls {
+    width: 100%;
+  }
+
+  .search-input,
+  .filter-select {
+    flex: 1;
+    min-width: 150px;
+  }
 }
 
 /* Mobile (480px and below) */
@@ -628,6 +699,213 @@
   .faq-answer p {
     font-size: 13px;
   }
+
+  .auth-header h1 {
+    font-size: 24px;
+  }
+
+  .auth-card {
+    padding: 30px 20px;
+  }
+
+  .auth-form {
+    gap: 15px;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+
+  .social-login {
+    gap: 10px;
+  }
+
+  .social-btn {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+
+  .auth-benefits h2 {
+    font-size: 20px;
+  }
+
+  .benefits-list li {
+    font-size: 13px;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .step h3 {
+    font-size: 16px;
+  }
+
+  .step p {
+    font-size: 12px;
+  }
+
+  .vault-header h1 {
+    font-size: 28px;
+  }
+
+  .vault-header p {
+    font-size: 14px;
+  }
+
+  .upload-card {
+    padding: 25px 20px;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+  }
+
+  .form-section h2 {
+    font-size: 18px;
+  }
+
+  .file-upload-area {
+    padding: 30px 20px;
+  }
+
+  .upload-icon {
+    font-size: 36px;
+  }
+
+  .file-upload-area h3 {
+    font-size: 16px;
+  }
+
+  .file-upload-area p {
+    font-size: 13px;
+  }
+
+  .info-card {
+    padding: 20px;
+  }
+
+  .info-card h3 {
+    font-size: 14px;
+  }
+
+  .info-list li,
+  .file-types li {
+    font-size: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .modal-content {
+    padding: 30px 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .modal-body p {
+    font-size: 13px;
+  }
+
+  /* Adding dashboard responsive styles */
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+
+  .dashboard-header p {
+    font-size: 14px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .stat-card {
+    padding: 25px 20px;
+  }
+
+  .stat-icon {
+    font-size: 36px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .plan-card-active {
+    padding: 25px 20px;
+  }
+
+  .plan-card-active h3 {
+    font-size: 22px;
+  }
+
+  .upgrade-card h3 {
+    font-size: 20px;
+  }
+
+  .upgrade-card .price {
+    font-size: 24px;
+  }
+
+  .files-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .warranty-card {
+    padding: 20px;
+  }
+
+  .warranty-title {
+    font-size: 16px;
+  }
+
+  .warranty-actions {
+    flex-direction: column;
+  }
+
+  .warranty-actions button {
+    width: 100%;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+  }
+
+  .search-input,
+  .filter-select {
+    width: 100%;
+  }
+
+  .reminders-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reminder-card {
+    padding: 20px;
+  }
+
+  .reminder-card h3 {
+    font-size: 16px;
+  }
+
+  .reminder-card p {
+    font-size: 13px;
+  }
 }
 
 /* Extra small devices (320px and below) */
@@ -687,5 +965,71 @@
   .category-card h3,
   .benefit-card h3 {
     font-size: 16px;
+  }
+
+  .auth-header h1 {
+    font-size: 20px;
+  }
+
+  .auth-card {
+    padding: 20px 15px;
+  }
+
+  .vault-header h1 {
+    font-size: 22px;
+  }
+
+  .upload-card {
+    padding: 20px 15px;
+  }
+
+  .form-section h2 {
+    font-size: 16px;
+  }
+
+  .file-upload-area {
+    padding: 20px 15px;
+  }
+
+  .upload-icon {
+    font-size: 32px;
+  }
+
+  /* Adding dashboard responsive styles */
+  .dashboard-header h1 {
+    font-size: 20px;
+  }
+
+  .stat-card {
+    padding: 20px 15px;
+  }
+
+  .stat-icon {
+    font-size: 32px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .plan-card-active {
+    padding: 20px 15px;
+  }
+
+  .warranty-card {
+    padding: 15px;
+  }
+
+  .warranty-title {
+    font-size: 14px;
+  }
+
+  .detail-item {
+    font-size: 12px;
+  }
+
+  .warranty-actions button {
+    padding: 8px 10px;
+    font-size: 12px;
   }
 }
