@@ -38,7 +38,7 @@ public class DashboardController {
     // ✅ Get all warranties uploaded by the user
     @GetMapping("/vaults/{email}")
     public ResponseEntity<?> getUserVaults(@PathVariable String email) {
-        Optional<WarrantyVault> vaults = vaultRepository.findByEmail(email);
+        List<WarrantyVault> vaults = vaultRepository.findByEmail(email);
         return ResponseEntity.ok(vaults);
     }
 

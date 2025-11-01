@@ -59,4 +59,9 @@ public class VaultServiceImpl  implements  VaultService {
         // Save to MongoDB
         return vaultRepository.save(vaultData);
     }
+
+    @Override
+    public List<WarrantyVault> getWarrantiesByEmail(String email) {
+        return vaultRepository.findByEmail(email);
+    }
 }

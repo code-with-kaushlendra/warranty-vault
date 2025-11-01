@@ -1,6 +1,7 @@
 package com.warrantyvault.warranty.vault.Controller;
 
 import com.warrantyvault.warranty.vault.Entity.WarrantyVault;
+import com.warrantyvault.warranty.vault.Repository.UserRepository;
 import com.warrantyvault.warranty.vault.Service.VaultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
         @Autowired
         private VaultService vaultService;
 
+        @Autowired
+        private UserRepository userRepository;
+
         @PostMapping("/upload")
         public ResponseEntity<?> uploadWarranty(
+                @RequestParam("email") String email,
                 @RequestParam("productName") String productName,
                 @RequestParam("category") String category,
                 @RequestParam(value = "brand", required = false) String brand,
@@ -29,6 +34,11 @@ import org.springframework.web.multipart.MultipartFile;
                 @RequestParam(value = "additionalFiles", required = false) MultipartFile[] additionalFiles
         ) {
             try {
+                var userOpt = userRepository.findByEmail(email);
+                if (userOpt.isEmpty()) {
+                    return ResponseEntity.badRequest().body("User not found");
+                }
+
                 WarrantyVault vault = new WarrantyVault();
                 vault.setProductName(productName);
                 vault.setCategory(category);
@@ -36,6 +46,7 @@ import org.springframework.web.multipart.MultipartFile;
                 vault.setSerialNumber(serialNumber);
                 vault.setPurchasePrice(purchasePrice);
                 vault.setNotes(notes);
+                vault.setEmail(email);
 
                 // Convert string to Date (if needed)
                 vault.setPurchaseDate(java.sql.Date.valueOf(purchaseDate));

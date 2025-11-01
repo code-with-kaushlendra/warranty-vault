@@ -1,85 +1,74 @@
-// ============================================
-// PAYMENT FORM HANDLING
-// ============================================
+async function initiatePayment(planType, amount) {
+  try {
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail) {
+      alert("Please login first!");
+      return;
+    }
 
-const paymentForm = document.getElementById("paymentForm")
+    // Step 1: Create order on backend
+    const res = await fetch(
+      `http://localhost:8080/api/payment/create-order?amount=${amount}&email=${userEmail}&planType=${planType}`,
+      { method: "POST" }
+    );
 
-// Declare showNotification function
-function showNotification(message, type) {
-  console.log(`[${type}] ${message}`)
+    const order = await res.json();
+    if (order.error) {
+      alert("Error creating order: " + order.error);
+      return;
+    }
+
+    // Step 2: Razorpay Checkout Options
+    const options = {
+      key: " rzp_test_RQwLEWKItg04vZ", // Replace with your test key
+      amount: order.amount,
+      currency: order.currency,
+      name: "Warranty Vault",
+      description: `Upgrade to ${planType} Plan`,
+      order_id: order.id,
+      handler: async function (response) {
+        alert("✅ Payment successful!");
+        console.log(response);
+
+        // Step 3: Notify backend of successful payment
+        await fetch("http://localhost:8080/api/payment/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            order_id: response.razorpay_order_id,
+            payment_id: response.razorpay_payment_id,
+          }),
+        });
+
+        // Step 4: UI update
+        document.getElementById("planBadge").textContent = planType + " Plan";
+        document.getElementById("planName").textContent = planType;
+        document.getElementById("planDescription").textContent =
+          "You are now a premium user!";
+        hideUpgradeModal();
+      },
+      prefill: {
+        email: userEmail,
+        name: localStorage.getItem("userName") || "User",
+      },
+      theme: { color: "#007bff" },
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    console.error("Payment initiation failed:", err);
+    alert("Error initiating payment!");
+  }
 }
 
-if (paymentForm) {
-  paymentForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-
-    // Get form values
-    const cardholderName = document.getElementById("cardholderName").value
-    const cardNumber = document.getElementById("cardNumber").value.replace(/\s/g, "")
-    const expiryDate = document.getElementById("expiryDate").value
-    const cvv = document.getElementById("cvv").value
-    const termsCheckbox = document.getElementById("termsCheckbox").checked
-
-    // Validation
-    if (!cardholderName.trim()) {
-      showNotification("Please enter cardholder name", "error")
-      return
-    }
-
-    if (cardNumber.length !== 16) {
-      showNotification("Please enter a valid 16-digit card number", "error")
-      return
-    }
-
-    if (!expiryDate.match(/^\d{2}\/\d{2}$/)) {
-      showNotification("Please enter expiry date in MM/YY format", "error")
-      return
-    }
-
-    if (cvv.length < 3 || cvv.length > 4) {
-      showNotification("Please enter a valid CVV", "error")
-      return
-    }
-
-    if (!termsCheckbox) {
-      showNotification("Please agree to the terms and conditions", "error")
-      return
-    }
-
-    // Validate expiry date
-    const [month, year] = expiryDate.split("/")
-    const currentDate = new Date()
-    const currentYear = currentDate.getFullYear() % 100
-    const currentMonth = currentDate.getMonth() + 1
-
-    if (
-      Number.parseInt(year) < currentYear ||
-      (Number.parseInt(year) === currentYear && Number.parseInt(month) < currentMonth)
-    ) {
-      showNotification("Card has expired", "error")
-      return
-    }
-
-    // Simulate payment processing
-    const submitBtn = paymentForm.querySelector('button[type="submit"]')
-    const originalText = submitBtn.textContent
-    submitBtn.disabled = true
-    submitBtn.textContent = "Processing..."
-
-    setTimeout(() => {
-      showNotification("Payment successful! Your plan is now active.", "success")
-
-      // Reset form
-      paymentForm.reset()
-      submitBtn.disabled = false
-      submitBtn.textContent = originalText
-
-      // Redirect after 2 seconds
-      setTimeout(() => {
-        window.location.href = "index.html"
-      }, 2000)
-    }, 2000)
-  })
+// Attach to buttons
+function showUpgradeModal() {
+  document.getElementById("planInfo").style.display = "none";
+  document.getElementById("upgradeOptions").style.display = "block";
 }
 
-console.log("[v0] Payment form initialized")
+function hideUpgradeModal() {
+  document.getElementById("upgradeOptions").style.display = "none";
+  document.getElementById("planInfo").style.display = "block";
+}

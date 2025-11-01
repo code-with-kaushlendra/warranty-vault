@@ -8,7 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
 // ✅ Fetch warranties from backend
 async function loadWarranties() {
   try {
-    const response = await fetch("http://localhost:8080/api/dashboard/vaults");
+
+     const email = localStorage.getItem("userEmail");
+      if (!email) {
+        alert("User not logged in!");
+        window.location.href = "login.html";
+        return;
+      }
+
+    const response = await fetch(`http://localhost:8080/api/dashboard/vaults/${email}`);
     if (!response.ok) throw new Error("Failed to fetch warranties");
 
     const data = await response.json();

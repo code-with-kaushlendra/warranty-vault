@@ -35,6 +35,9 @@ public class UserController {
           Map<String,Object> response=new HashMap();
             if(dbuser != null){
                 response.put("message","Login Successfull");
+                response.put("email", dbuser.getEmail());
+                response.put("firstName", dbuser.getFirstName());
+                response.put("lastName", dbuser.getLastName());
             }
 
             return  ResponseEntity.ok(response);

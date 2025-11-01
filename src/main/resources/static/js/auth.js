@@ -9,9 +9,7 @@ function showNotification(message, type) {
   notification.textContent = message;
   document.body.appendChild(notification);
 
-  setTimeout(() => {
-    document.body.removeChild(notification);
-  }, 3000);
+  setTimeout(() => document.body.removeChild(notification), 3000);
 }
 
 // ✅ Password Toggle Helper
@@ -28,7 +26,6 @@ function setupPasswordToggle(toggleBtnId, inputId) {
   }
 }
 
-// Password toggle setup
 setupPasswordToggle("togglePassword", "password");
 setupPasswordToggle("toggleRegPassword", "regPassword");
 setupPasswordToggle("toggleConfirmPassword", "confirmPassword");
@@ -42,7 +39,6 @@ if (regPasswordInput) {
     const strengthText = document.getElementById("strengthText");
 
     let strength = 0;
-
     if (password.length >= 8) strength++;
     if (password.length >= 12) strength++;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
@@ -65,7 +61,7 @@ if (regPasswordInput) {
   });
 }
 
-// ✅ Email & Phone Validators
+// ✅ Validators
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -82,22 +78,19 @@ if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     let isValid = true;
 
-    // Clear previous errors
-    document.querySelectorAll(".error-message").forEach((el) => {
-      el.classList.remove("show");
-    });
+    document.querySelectorAll(".error-message").forEach((el) => el.classList.remove("show"));
 
-    // Validation
     if (!validateEmail(email)) {
       document.getElementById("emailError").textContent = "Please enter a valid email";
       document.getElementById("emailError").classList.add("show");
       isValid = false;
     }
+
     if (password.length < 6) {
       document.getElementById("passwordError").textContent = "Password must be at least 6 characters";
       document.getElementById("passwordError").classList.add("show");
@@ -106,27 +99,28 @@ if (loginForm) {
 
     if (!isValid) return;
 
-    const user = { email, password };
-
     try {
       const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
+        body: JSON.stringify({ email, password }),
       });
 
       const result = await response.json();
-      console.log("Login response:", result);
 
       if (response.ok) {
-        alert("Login Successful");
+        alert("Login Successful!");
+        // ✅ Save user info to localStorage
+        localStorage.setItem("userName", result.firstName || "User");
+        localStorage.setItem("userEmail", result.email);
+
         window.location.href = "dashboard.html";
       } else {
-        alert("Login failed: " + result.message || "Unknown error");
+        alert("Login failed: " + (result.message || "Invalid credentials"));
       }
     } catch (error) {
-      console.error("Error during login!", error);
-      alert("An error occurred");
+      console.error("Error during login:", error);
+      alert("Server error occurred");
     }
   });
 }
@@ -140,26 +134,24 @@ if (registerForm) {
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const firstName = document.getElementById("firstName").value;
-    const lastName = document.getElementById("lastName").value;
-    const email = document.getElementById("regEmail").value;
-    const phone = document.getElementById("phone").value;
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const phone = document.getElementById("phone").value.trim();
     const password = document.getElementById("regPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     const terms = document.getElementById("terms").checked;
 
     let isValid = true;
-
-    // Clear previous errors
     document.querySelectorAll(".error-message").forEach((el) => el.classList.remove("show"));
 
-    if (firstName.trim().length < 2) {
+    if (firstName.length < 2) {
       document.getElementById("firstNameError").textContent = "First name must be at least 2 characters";
       document.getElementById("firstNameError").classList.add("show");
       isValid = false;
     }
 
-    if (lastName.trim().length < 2) {
+    if (lastName.length < 2) {
       document.getElementById("lastNameError").textContent = "Last name must be at least 2 characters";
       document.getElementById("lastNameError").classList.add("show");
       isValid = false;
@@ -197,26 +189,24 @@ if (registerForm) {
 
     if (!isValid) return;
 
-    const user = { firstName, lastName, email, phone, password };
-
     try {
       const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
+        body: JSON.stringify({ firstName, lastName, email, phone, password }),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        alert("Signup Successful! Redirecting to login page...");
+        alert("Signup Successful! Redirecting to login...");
         window.location.href = "login.html";
       } else {
         alert("Signup failed: " + (result.message || "Unknown error"));
       }
     } catch (error) {
-      console.error("Error During Signup!", error);
-      alert("An error occurred");
+      console.error("Error during signup:", error);
+      alert("Server error occurred");
     }
   });
 }

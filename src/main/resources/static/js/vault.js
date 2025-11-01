@@ -1,6 +1,12 @@
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const email=localStorage.getItem("userEmail")
+  if(!email){
+  alert("User email missing - please login again!");
+  return;
+  }
+
   // Collect inputs
   const productName = document.getElementById("productName").value;
   const category = document.getElementById("category").value;
@@ -15,6 +21,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // ✅ Create FormData
   const formData = new FormData();
+    formData.append("email", email);
   formData.append("productName", productName);
   formData.append("category", category);
   formData.append("brand", brand);
@@ -54,6 +61,10 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     // Reset form
     document.getElementById("uploadForm").reset();
+
+    setTimeout(()=>{
+    window.location.href="dashboard.html"
+    },1500)
 
   } catch (error) {
     console.error("Error during upload:", error);
