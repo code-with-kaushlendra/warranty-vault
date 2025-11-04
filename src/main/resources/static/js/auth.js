@@ -108,15 +108,21 @@ if (loginForm) {
 
       const result = await response.json();
 
-      if (response.ok) {
-        alert("Login Successful!");
-        // ✅ Save user info to localStorage
-        localStorage.setItem("userName", result.firstName || "User");
-        localStorage.setItem("userEmail", result.email);
+   if (response.ok) {
+     showNotification("Login successful! Redirecting...", "success");
 
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Login failed: " + (result.message || "Invalid credentials"));
+     // ✅ Save user info to localStorage
+     localStorage.setItem("userName", result.firstName || "User");
+     localStorage.setItem("userEmail", result.email);
+     localStorage.setItem("planType", result.planType?.toUpperCase() || "FREE"); // fixed variable name
+     localStorage.setItem("userPhone", result.phone || "");
+
+     setTimeout(() => {
+       window.location.href = "dashboard.html";
+     }, 2000);
+   }
+ else {
+       showNotification("Invalid Email or Password. Please try again.!","error");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -199,8 +205,11 @@ if (registerForm) {
       const result = await response.json();
 
       if (response.ok) {
-        alert("Signup Successful! Redirecting to login...");
-        window.location.href = "login.html";
+       showNotification("Signup Successful! Redirecting to login...","success");
+      setTimeout(()=>{
+              window.location.href = "login.html";
+      },2000);
+
       } else {
         alert("Signup failed: " + (result.message || "Unknown error"));
       }

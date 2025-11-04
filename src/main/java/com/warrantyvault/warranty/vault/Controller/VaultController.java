@@ -61,4 +61,15 @@ import org.springframework.web.multipart.MultipartFile;
                 return ResponseEntity.badRequest().body("Error uploading warranty: " + e.getMessage());
             }
         }
-}
+        @GetMapping("/list/{email}")
+        public ResponseEntity<?> getVaultsByEmail(@PathVariable String email) {
+            try {
+                var vaults = vaultService.getVaultsByEmail(email);
+                return ResponseEntity.ok(vaults);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Error fetching warranties: " + e.getMessage());
+            }
+        }
+
+    }

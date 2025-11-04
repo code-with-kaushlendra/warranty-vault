@@ -64,4 +64,9 @@ public class VaultServiceImpl  implements  VaultService {
     public List<WarrantyVault> getWarrantiesByEmail(String email) {
         return vaultRepository.findByEmail(email);
     }
+
+    @Override
+    public List<WarrantyVault> getVaultsByEmail(String email) {
+        return vaultRepository.findByEmail(email);
+    }
 }

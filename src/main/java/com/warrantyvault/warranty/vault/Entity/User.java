@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,6 +28,9 @@ public class User {
     private String phone;
     private String password;
     private String planType="FREE";
+
+    private LocalDate planStartDate;
+    private LocalDate planExpiryDate;
 
 
     @CreatedDate

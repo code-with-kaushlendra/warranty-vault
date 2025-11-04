@@ -1,6 +1,7 @@
 async function initiatePayment(planType, amount) {
   try {
     const userEmail = localStorage.getItem("userEmail");
+      const userPhone = localStorage.getItem("userPhone") || "9999999999"; // ✅ fallback if missing
     if (!userEmail) {
       alert("Please login first!");
       return;
@@ -20,14 +21,14 @@ async function initiatePayment(planType, amount) {
 
     // Step 2: Razorpay Checkout Options
     const options = {
-      key: " rzp_test_RQwLEWKItg04vZ", // Replace with your test key
+      key: "rzp_test_RTgoh4futOXBLA", // Replace with your test key
       amount: order.amount,
       currency: order.currency,
       name: "Warranty Vault",
       description: `Upgrade to ${planType} Plan`,
       order_id: order.id,
       handler: async function (response) {
-        alert("✅ Payment successful!");
+       showNotification("Payment Successfull...","success");
         console.log(response);
 
         // Step 3: Notify backend of successful payment
@@ -37,6 +38,7 @@ async function initiatePayment(planType, amount) {
           body: JSON.stringify({
             order_id: response.razorpay_order_id,
             payment_id: response.razorpay_payment_id,
+             email: userEmail,
           }),
         });
 
@@ -50,6 +52,7 @@ async function initiatePayment(planType, amount) {
       prefill: {
         email: userEmail,
         name: localStorage.getItem("userName") || "User",
+        contact: userPhone,
       },
       theme: { color: "#007bff" },
     };

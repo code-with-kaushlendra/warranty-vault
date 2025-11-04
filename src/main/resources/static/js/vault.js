@@ -1,13 +1,48 @@
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email=localStorage.getItem("userEmail")
-  if(!email){
-  alert("User email missing - please login again!");
-  return;
+  const email = localStorage.getItem("userEmail");
+  if (!email) {
+    alert("User email missing - please login again!");
+    return;
   }
 
-  // Collect inputs
+  // 🧩 STEP 1 — Define plan limits
+  const PLAN_LIMITS = {
+    FREE: 2,
+    BASIC: 10,
+    PREMIUM: 50
+  };
+
+  // 🧩 STEP 2 — Get user's plan
+  const planType = localStorage.getItem("planType") || "FREE";
+
+  // 🧩 STEP 3 — Check how many warranties are already uploaded
+  try {
+  const res = await fetch(`http://localhost:8080/api/vault/list/${email}`);
+
+    if (!res.ok) throw new Error("Failed to fetch warranties");
+    const warranties = await res.json();
+    console.log("Fetched warranties:", warranties);
+
+
+    const currentCount = warranties.length;
+    const allowedLimit = PLAN_LIMITS[planType.toUpperCase()] || 2;
+
+    // 🛑 STEP 4 — Stop if user exceeded limit
+    if (currentCount >= allowedLimit) {
+     showNotification(`You reached your ${planType} plan limit (${allowedLimit} warranties). Upgrade to add more!`, "warning");
+     setTimeout(() => {
+       window.location.href = "dashboard.html";
+     }, 5000);
+
+      return;
+    }
+  } catch (err) {
+    console.error("Error checking plan limit:", err);
+  }
+
+  // ✅ STEP 5 — Continue with normal upload
   const productName = document.getElementById("productName").value;
   const category = document.getElementById("category").value;
   const brand = document.getElementById("brand").value;
@@ -19,9 +54,8 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   const warrantyFile = document.getElementById("warrantyFile").files[0];
   const additionalFiles = document.getElementById("additionalFiles").files;
 
-  // ✅ Create FormData
   const formData = new FormData();
-    formData.append("email", email);
+  formData.append("email", email);
   formData.append("productName", productName);
   formData.append("category", category);
   formData.append("brand", brand);
@@ -42,10 +76,9 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   }
 
   try {
-    // ✅ Send to backend API
     const response = await fetch("http://localhost:8080/api/vault/upload", {
       method: "POST",
-      body: formData, // multipart/form-data auto handled
+      body: formData,
     });
 
     if (!response.ok) {
@@ -57,14 +90,13 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     const result = await response.json();
     console.log("Upload success:", result);
-    alert("Warranty uploaded successfully!");
+    showNotification("Warranty uploaded successfully!", "success");
 
-    // Reset form
     document.getElementById("uploadForm").reset();
 
-    setTimeout(()=>{
-    window.location.href="dashboard.html"
-    },1500)
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1500);
 
   } catch (error) {
     console.error("Error during upload:", error);

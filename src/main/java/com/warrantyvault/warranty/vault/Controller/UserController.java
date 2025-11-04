@@ -3,6 +3,7 @@ package com.warrantyvault.warranty.vault.Controller;
 import com.warrantyvault.warranty.vault.Entity.User;
 import com.warrantyvault.warranty.vault.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,13 +35,23 @@ public class UserController {
 
           Map<String,Object> response=new HashMap();
             if(dbuser != null){
+                response.put("success",true);
                 response.put("message","Login Successfull");
                 response.put("email", dbuser.getEmail());
                 response.put("firstName", dbuser.getFirstName());
                 response.put("lastName", dbuser.getLastName());
+                response.put("planType", dbuser.getPlanType());
+                response.put("planExpiryDate", dbuser.getPlanExpiryDate());
+                response.put("phone", dbuser.getPhone());
+                return ResponseEntity.ok(response);
+            }
+            else{
+                response.put("success",false);
+                response.put("messsage","Invalid email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
-            return  ResponseEntity.ok(response);
+
         }
 
 

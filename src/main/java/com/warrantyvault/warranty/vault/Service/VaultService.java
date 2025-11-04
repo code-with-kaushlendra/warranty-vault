@@ -19,4 +19,7 @@ public interface VaultService {
 
     public List<WarrantyVault> getWarrantiesByEmail(String email) ;
 
+    public List<WarrantyVault> getVaultsByEmail(String email);
+
+
 }

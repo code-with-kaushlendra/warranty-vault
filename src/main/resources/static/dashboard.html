@@ -96,10 +96,16 @@
                     <h3 id="planName">Free</h3>
                     <p id="planDescription">Perfect for getting started with warranty management</p>
 
+                    <div class="plan-dates">
+                        <p><strong>Plan Type:</strong> <span id="planType">Free</span></p>
+                        <p><strong>Start Date:</strong> <span id="planStart">--</span></p>
+                        <p><strong>Expiry Date:</strong> <span id="planExpiry">--</span></p>
+                    </div>
+
                     <div class="plan-features">
                         <div class="feature-item">
                             <span class="check-icon">✓</span>
-                            <span id="feature1">Up to 10 warranties</span>
+                            <span id="feature1">Up to 2 warranties</span>
                         </div>
                         <div class="feature-item">
                             <span class="check-icon">✓</span>
@@ -133,13 +139,13 @@
                         <h3>Individual</h3>
                         <div class="price">₹299<span>/month</span></div>
                         <ul class="upgrade-features">
-                            <li>✓ Unlimited warranties</li>
+                            <li>✓ upload 10 warranties</li>
                             <li>✓ Advanced search</li>
                             <li>✓ Email & SMS reminders</li>
                             <li>✓ Document sharing</li>
                             <li>✓ Mobile app access</li>
                         </ul>
-                        <button class="btn btn-primary" onclick="initiatePayment()">Select Plan</button>
+                        <button class="btn btn-primary" onclick="initiatePayment('Basic',299)">Select Plan</button>
                     </div>
                     <div class="upgrade-card featured">
                         <h3>Business</h3>
@@ -151,7 +157,7 @@
                             <li>✓ Priority support</li>
                             <li>✓ API access</li>
                         </ul>
-                        <button class="btn btn-primary" onclick="initiatePayment()">Select Plan</button>
+                        <button class="btn btn-primary" onclick="initiatePayment('Premium',999)">Select Plan</button>
                     </div>
                 </div>
                 <button class="btn btn-secondary" onclick="hideUpgradeModal()" style="width: 100%; margin-top: 20px;">Back to Current Plan</button>
@@ -261,6 +267,7 @@
 
 <script src="js/main.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="js/payment.js"></script>
 </body>
 </html>

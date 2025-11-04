@@ -28,6 +28,7 @@ public class WarrantyVault {
     private Double purchasePrice;
     private String notes;
     private String email;
+    private boolean reminderSent=false;
 
     private String warrantyFilePath; // Path where file is stored
     private String[] additionalFilesPath; // Multiple files
