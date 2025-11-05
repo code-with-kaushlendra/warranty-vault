@@ -1,8 +1,11 @@
 package com.warrantyvault.warranty.vault.Repository;
 
 import com.warrantyvault.warranty.vault.Entity.Payment;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PaymentRepository extends MongoRepository<Payment,String> {
+
+@Repository
+public interface PaymentRepository extends JpaRepository<Payment,Long> {
     Payment findByOrderId(String orderId);
 }

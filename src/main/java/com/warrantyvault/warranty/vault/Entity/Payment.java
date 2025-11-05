@@ -1,25 +1,27 @@
 package com.warrantyvault.warranty.vault.Entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 import java.time.LocalDateTime;
 
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "payments")
+@Data
+@Entity
+@Table(name="payments")
 public class Payment {
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    // ✅ Primary key required
     private  String email;
     private  String orderId;
     private  String paymentId;
@@ -27,6 +29,25 @@ public class Payment {
     private double amount;
     private  String status;
     private long timestamp;
+
+    @CreatedDate
+    private LocalDateTime created_at;
+
+    @CreatedDate
+    private LocalDateTime updated_at;
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_at = LocalDateTime.now();
+        this.updated_at = LocalDateTime.now();
+
+    }
+
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updated_at = LocalDateTime.now();
+    }
 
     public Payment(String email, String orderId, double amount, String planType) {
         this.email = email;
@@ -37,8 +58,7 @@ public class Payment {
         this.timestamp = System.currentTimeMillis();
     }
 
-    @CreatedDate
-    private LocalDateTime createdAt;
+
 
 
 }

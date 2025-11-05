@@ -1,27 +1,31 @@
 package com.warrantyvault.warranty.vault.Entity;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
+
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "users")
+@Table(name="users")
 public class User {
 
     @Id
-    private  String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    // ✅ Primary key required
     private String firstName;
     private String lastName;
     private String email;

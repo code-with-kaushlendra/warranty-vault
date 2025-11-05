@@ -1,23 +1,24 @@
 package com.warrantyvault.warranty.vault.Entity;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.util.Date;
 
-
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "warrantyvault")
+@Table(name="warrantyvault")
 public class WarrantyVault {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // ✅ Primary key required
 
     private String productName;
     private String category;
