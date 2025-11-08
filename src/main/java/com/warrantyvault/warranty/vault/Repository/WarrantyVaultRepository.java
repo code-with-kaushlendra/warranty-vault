@@ -13,5 +13,8 @@ public interface WarrantyVaultRepository extends JpaRepository<WarrantyVault, Lo
   List<WarrantyVault> findByEmail(String email);
 
 
+  List<WarrantyVault> findByEmailIgnoreCaseAndWarrantyExpiryBefore(String email, Date date);
+  List<WarrantyVault> findByEmailIgnoreCaseAndWarrantyExpiryBetween(String email, Date start, Date end);
   List<WarrantyVault> findByWarrantyExpiryBetweenAndReminderSentFalse(Date start, Date end);
+
 }

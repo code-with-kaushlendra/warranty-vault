@@ -6,30 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
  loadWarranties();
  loadUserPlan(userEmail);
   showReminders();
-  checkWarrantyReminders();
+
+
+  setTimeout(()=>{
+       showExpiryNotifications(userEmail);
+  },1000);
+
 });
 
-// ✅ Fetch warranties from backend
-async function loadWarranties() {
-  try {
-
-     const email = localStorage.getItem("userEmail");
-      if (!email) {
-        alert("User not logged in!");
-        window.location.href = "login.html";
-        return;
-      }
-
-    const response = await fetch(`http://localhost:8080/api/dashboard/vaults/${email}`);
-    if (!response.ok) throw new Error("Failed to fetch warranties");
-
-    const data = await response.json();
-    renderWarranties(data);
-    document.getElementById("totalWarranties").textContent = data.length;
-  } catch (error) {
-    console.error("Error loading warranties:", error);
-  }
-}
 
 // ✅ Display warranties on dashboard
 function renderWarranties(warranties) {
@@ -82,7 +66,6 @@ function hideUpgradeModal() {
 
 
 // check warrnaty reminders
-
 async function checkWarrantyReminders() {
   const email = localStorage.getItem("userEmail");
   if (!email) return;
@@ -94,26 +77,36 @@ async function checkWarrantyReminders() {
     const warranties = await res.json();
     const remindersGrid = document.getElementById("remindersGrid");
 
+    remindersGrid.innerHTML = "";
+
     if (warranties.length === 0) {
       remindersGrid.innerHTML = `<div class="empty-reminders">✅ No upcoming warranty expiries.</div>`;
       return;
     }
 
-    // Show cards for each expiring warranty
-    remindersGrid.innerHTML = "";
-    warranties.forEach(w => {
+    warranties.forEach((w) => {
       const expiry = new Date(w.warrantyExpiry);
       const daysLeft = Math.ceil((expiry - new Date()) / (1000 * 60 * 60 * 24));
 
       const div = document.createElement("div");
       div.classList.add("reminder-card", "warning");
+
       div.innerHTML = `
-        ⏰ <b>${w.productName}</b> warranty expires in <b>${daysLeft}</b> day(s) on ${expiry.toLocaleDateString()}.
+        <div class="reminder-content">
+          <span class="reminder-icon">⏰</span>
+          <div class="reminder-text">
+            <span class="reminder-product">${w.productName}</span> warranty expires in
+            <span class="reminder-days">${daysLeft} day(s)</span> on
+            <span class="reminder-date">${expiry.toLocaleDateString()}.</span>
+          </div>
+        </div>
       `;
+
       remindersGrid.appendChild(div);
     });
   } catch (err) {
     console.error("Error fetching reminders:", err);
+    remindersGrid.innerHTML = `<div class="empty-reminders error">⚠️ Could not load reminders.</div>`;
   }
 }
 
@@ -182,6 +175,81 @@ async function loadUserPlan(email) {
   }
 }
 
+
+async function showExpiryNotifications(email) {
+  if (!email) return;
+
+  try {
+    const res = await fetch(`http://localhost:8080/api/reminders/expiring/${email}`);
+    if (!res.ok) throw new Error("Failed to fetch reminders");
+
+    const warranties = await res.json();
+
+    if (warranties.length > 0) {
+  warranties.forEach((w) => {
+    const expiry = new Date(w.warrantyExpiry);
+    const today = new Date();
+
+    // Normalize both to midnight (avoid timezone shift)
+    expiry.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const daysLeft = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+
+    let message = "";
+    if (daysLeft > 0) {
+      message = `expires in <span class="reminder-days">${daysLeft} day(s)</span>`;
+    } else if (daysLeft === 0) {
+      message = `<span class="reminder-days">expires today!</span>`;
+    } else {
+      message = `<span class="reminder-days expired">expired ${Math.abs(daysLeft)} day(s) ago</span>`;
+    }
+
+    const div = document.createElement("div");
+    div.classList.add("reminder-card", "warning");
+
+    div.innerHTML = `
+      <div class="reminder-content">
+        <span class="reminder-icon">⏰</span>
+        <div class="reminder-text">
+          <span class="reminder-product">${w.productName}</span> ${message}
+          (on <span class="reminder-date">${expiry.toLocaleDateString()}</span>)
+        </div>
+      </div>
+    `;
+
+    remindersGrid.appendChild(div);
+  });
+
+
+    } else {
+      console.log("No upcoming expiries.");
+    }
+
+    // ✅ Also check plan expiry
+    const planType = localStorage.getItem("planType");
+    const planExpiryDate = localStorage.getItem("planExpiryDate");
+    if (planType !== "Premium" && planExpiryDate) {
+      const expiry = new Date(planExpiryDate);
+      const today = new Date();
+      const daysLeft = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+
+      if (daysLeft <= 5 && daysLeft > 0) {
+        showNotification(
+          `⚠️ Your ${planType} plan expires in ${daysLeft} day(s). Renew soon!`,
+          "warning"
+        );
+      } else if (daysLeft <= 0) {
+        showNotification("❌ Your plan has expired. Please upgrade to continue.", "error");
+      }
+    }
+  } catch (err) {
+    console.error("Error showing expiry notifications:", err);
+  }
+}
+
+
+
 // ===============================
 // FETCH WARRANTIES
 // ===============================
@@ -189,10 +257,17 @@ async function loadWarranties() {
   try {
     const email = localStorage.getItem("userEmail");
     if (!email) {
-      alert("User not logged in!");
+      showNotification("User not logged in !","error");
+
+
       window.location.href = "login.html";
-      return;
-    }
+
+        return;
+
+      }
+
+
+
 
     const response = await fetch(`http://localhost:8080/api/dashboard/vaults/${email}`);
     if (!response.ok) throw new Error("Failed to fetch warranties");

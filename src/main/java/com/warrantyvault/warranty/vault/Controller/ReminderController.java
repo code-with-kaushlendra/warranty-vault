@@ -18,35 +18,25 @@ public class ReminderController {
 
     @Autowired
     private WarrantyVaultRepository vaultRepository;
+
+
     @GetMapping("/expiring/{email}")
     public List<WarrantyVault> getExpiringWarranties(@PathVariable String email) {
         LocalDate today = LocalDate.now();
-        LocalDate upcoming = today.plusDays(40); // test window
+        LocalDate upcoming = today.plusDays(40);
 
-        Date start = java.sql.Date.valueOf(today);
-        Date end = java.sql.Date.valueOf(upcoming);
+        Date todayDate = java.sql.Date.valueOf(today);
+        Date upcomingDate = java.sql.Date.valueOf(upcoming);
 
-        System.out.println("Checking between: " + start + " and " + end);
+        List<WarrantyVault> expired = vaultRepository.findByEmailIgnoreCaseAndWarrantyExpiryBefore(email, todayDate);
+        List<WarrantyVault> expiringSoon = vaultRepository.findByEmailIgnoreCaseAndWarrantyExpiryBetween(email, todayDate, upcomingDate);
 
-        List<WarrantyVault> all = vaultRepository.findByWarrantyExpiryBetweenAndReminderSentFalse(start, end);
-        System.out.println("Found warranties count: " + all.size());
-
-// Debug: print all emails
-        for (WarrantyVault w : all) {
-            System.out.println("DB email: '" + w.getEmail() + "'");
-            System.out.println("Comparing with request email: '" + email + "'");
-        }
-
-
-        // ✅ Make sure filtering is strict but safe
-        List<WarrantyVault> filtered = all.stream()
-                .filter(w -> w.getEmail() != null &&
-                        w.getEmail().trim().equalsIgnoreCase(email.trim()))
-                .collect(Collectors.toList());
-
-        System.out.println("Filtered warranties for " + email + ": " + filtered.size());
-        return filtered;
+        // Combine both lists
+        expired.addAll(expiringSoon);
+        System.out.println("Total warranties (expired + upcoming): " + expired.size());
+        return expired;
     }
+
 
 
 }

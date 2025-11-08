@@ -3,7 +3,7 @@ async function initiatePayment(planType, amount) {
     const userEmail = localStorage.getItem("userEmail");
       const userPhone = localStorage.getItem("userPhone") || "9999999999"; // ✅ fallback if missing
     if (!userEmail) {
-      alert("Please login first!");
+      showNotification("Please Login First!","error");
       return;
     }
 
@@ -61,7 +61,8 @@ async function initiatePayment(planType, amount) {
     rzp.open();
   } catch (err) {
     console.error("Payment initiation failed:", err);
-    alert("Error initiating payment!");
+
+    showNotification("Error initiating payment!","error");
   }
 }
 

@@ -1,9 +1,38 @@
+// =================== File Preview Section ===================
+const fileInput = document.getElementById("warrantyFile");
+const filePreview = document.getElementById("filePreview");
+const fileNameEl = document.getElementById("fileName");
+const fileSizeEl = document.getElementById("fileSize");
+const removeFileBtn = document.getElementById("removeFile");
+
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (file) {
+    fileNameEl.textContent = file.name;
+    fileSizeEl.textContent = `${(file.size / 1024).toFixed(1)} KB`;
+    filePreview.style.display = "block";
+  } else {
+    filePreview.style.display = "none";
+  }
+});
+
+removeFileBtn.addEventListener("click", () => {
+  fileInput.value = "";
+  filePreview.style.display = "none";
+});
+// =============================================================
+
+
+
+
+
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email = localStorage.getItem("userEmail");
   if (!email) {
-    alert("User email missing - please login again!");
+
+    showNotification("User email missing - please login again!","error");
     return;
   }
 
@@ -90,9 +119,18 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     const result = await response.json();
     console.log("Upload success:", result);
-    showNotification("Warranty uploaded successfully!", "success");
+showNotification("Warranty uploaded successfully!", "success");
 
-    document.getElementById("uploadForm").reset();
+// ✅ Show uploaded file confirmation
+if (warrantyFile) {
+  filePreview.style.display = "block";
+  fileNameEl.textContent = warrantyFile.name;
+  fileSizeEl.textContent = `${(warrantyFile.size / 1024).toFixed(1)} KB`;
+}
+
+// ✅ Reset other form fields (except file)
+document.getElementById("uploadForm").reset();
+
 
     setTimeout(() => {
       window.location.href = "dashboard.html";
@@ -100,6 +138,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   } catch (error) {
     console.error("Error during upload:", error);
-    alert("Error occurred while uploading!");
+
+    showNotification("Error occurred while uploading!");
   }
 });
