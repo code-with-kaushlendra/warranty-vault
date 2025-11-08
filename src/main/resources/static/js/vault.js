@@ -48,7 +48,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // 🧩 STEP 3 — Check how many warranties are already uploaded
   try {
-  const res = await fetch(`http://localhost:8080/api/vault/list/${email}`);
+  const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/vault/list/${email}`);
 
     if (!res.ok) throw new Error("Failed to fetch warranties");
     const warranties = await res.json();
@@ -105,7 +105,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   }
 
   try {
-    const response = await fetch("http://localhost:8080/api/vault/upload", {
+    const response = await fetch("https://warranty-vault-4v38.onrender.com/api/vault/upload", {
       method: "POST",
       body: formData,
     });

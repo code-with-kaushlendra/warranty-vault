@@ -71,7 +71,7 @@ async function checkWarrantyReminders() {
   if (!email) return;
 
   try {
-    const res = await fetch(`http://localhost:8080/api/reminders/expiring/${email}`);
+    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/reminders/expiring/${email}`);
     if (!res.ok) throw new Error("Failed to fetch reminders");
 
     const warranties = await res.json();
@@ -116,7 +116,7 @@ async function checkWarrantyReminders() {
 // ===============================
 async function loadUserPlan(email) {
   try {
-    const res = await fetch(`http://localhost:8080/api/dashboard/user/${email}`);
+    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/dashboard/user/${email}`);
 
     if (!res.ok) throw new Error("Failed to load user data");
 
@@ -180,7 +180,7 @@ async function showExpiryNotifications(email) {
   if (!email) return;
 
   try {
-    const res = await fetch(`http://localhost:8080/api/reminders/expiring/${email}`);
+    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/reminders/expiring/${email}`);
     if (!res.ok) throw new Error("Failed to fetch reminders");
 
     const warranties = await res.json();
@@ -269,7 +269,7 @@ async function loadWarranties() {
 
 
 
-    const response = await fetch(`http://localhost:8080/api/dashboard/vaults/${email}`);
+    const response = await fetch(`https://warranty-vault-4v38.onrender.com/api/dashboard/vaults/${email}`);
     if (!response.ok) throw new Error("Failed to fetch warranties");
 
     const data = await response.json();
