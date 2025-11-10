@@ -1,3 +1,17 @@
+// ✅ Prevent browser from caching the dashboard page
+if (performance.navigation.type === performance.navigation.TYPE_BACK_FORWARD) {
+  window.location.reload(true);
+}
+
+
+// ✅ Prevent access without login
+const userEmail = localStorage.getItem("userEmail");
+if (!userEmail) {
+  showNotification("Please log in to continue", "error");
+  window.location.replace("login.html");
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const userName = localStorage.getItem("userName") || "User";
   document.getElementById("userName").textContent = userName;
@@ -67,6 +81,7 @@ function logout() {
   // Use replace to prevent going back to dashboard
   setTimeout(() => {
     window.location.replace("login.html");
+     window.location.reload(true);
   }, 1000);
 }
 
