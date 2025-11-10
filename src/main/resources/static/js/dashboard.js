@@ -3,6 +3,15 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("userName").textContent = userName;
    const userEmail = localStorage.getItem("userEmail");
 
+   if(!userEmail){
+   showNotification("User not logged in!","error");
+   setTimeout(()=>{
+     window.location.href="login.html";
+   },2000);
+   return;
+   }
+
+
  loadWarranties();
  loadUserPlan(userEmail);
   showReminders();
