@@ -401,16 +401,7 @@ function showReminders() {
   }
 }
 
-// ===============================
-// LOGOUT FUNCTION
-// ===============================
-function logout() {
-  localStorage.clear();
-  showNotification("Redirecting to Login Page...", "success");
-  setTimeout(() => {
-    window.location.href = "login.html";
-  }, 2000);
-}
+
 
 // ===============================
 // PLAN MODAL HANDLERS
