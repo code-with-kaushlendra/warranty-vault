@@ -9,7 +9,7 @@ async function initiatePayment(planType, amount) {
 
     // Step 1: Create order on backend
     const res = await fetch(
-      `http://localhost:8080/api/payment/create-order?amount=${amount}&email=${userEmail}&planType=${planType}`,
+      `https://warranty-vault-4v38.onrender.com/api/payment/create-order?amount=${amount}&email=${userEmail}&planType=${planType}`,
       { method: "POST" }
     );
 
@@ -32,7 +32,7 @@ async function initiatePayment(planType, amount) {
         console.log(response);
 
         // Step 3: Notify backend of successful payment
-        await fetch("http://localhost:8080/api/payment/verify", {
+        await fetch("https://warranty-vault-4v38.onrender.com/api/payment/verify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
