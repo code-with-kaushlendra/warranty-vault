@@ -51,14 +51,25 @@ function renderWarranties(warranties) {
   });
 }
 
-// ✅ Logout
 function logout() {
+  // Clear all possible client storage
   localStorage.clear();
-  showNotification("Redirecting to Login Page..","success");
-  setTimeout(()=>{
-              window.location.href = "login.html";
-  },2000);
-  }
+  sessionStorage.clear();
+
+  // Also clear any cookies (if you ever use them)
+  document.cookie.split(";").forEach((c) => {
+    document.cookie = c.replace(/^ +/, "")
+      .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+  });
+
+  showNotification("Logging out...", "success");
+
+  // Use replace to prevent going back to dashboard
+  setTimeout(() => {
+    window.location.replace("login.html");
+  }, 1000);
+}
+
 
 
 
