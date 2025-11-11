@@ -22,12 +22,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("https://warrantyvault.in/dashboard", true) // 👈 redirect after login
-                        .failureUrl("/login?error=true") // optional
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("https://warrantyvault.in/") // 👈 redirect after logout
-                        .permitAll()
+                        .defaultSuccessUrl("/api/auth/google/success", true)
+                        .failureUrl("/login?error=true")
                 );
 
         return http.build();
