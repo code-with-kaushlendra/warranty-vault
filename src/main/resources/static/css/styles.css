@@ -3409,3 +3409,34 @@ body {
     padding: 4px 8px;
   }
 }
+
+.price-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.price-wrapper .currency {
+  padding: 0 8px;
+  font-size: 1.2rem;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  user-select: none;
+  height: 38px; /* match input height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.price-wrapper input[type="number"] {
+  border-radius: 0 4px 4px 0;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding-left: 8px;
+  height: 38px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
