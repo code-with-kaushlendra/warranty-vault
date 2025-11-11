@@ -23,7 +23,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/api/auth/google/success", true)
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/api/auth/google/failure")
                 );
 
         return http.build();

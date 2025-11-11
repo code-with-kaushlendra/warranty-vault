@@ -2,12 +2,14 @@ package com.warrantyvault.warranty.vault.Controller;
 
 import com.warrantyvault.warranty.vault.Entity.User;
 import com.warrantyvault.warranty.vault.Service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,59 +54,76 @@ public class UserController {
     }
 
 
-        // ✅ NEW: Google Sign-In
-        @PostMapping("/google-login")
-        public ResponseEntity<?> googleLogin (@RequestBody Map < String, String > payload){
-            String token = payload.get("token");
-            try {
-                // Step 1: Verify token using Google API
-                String googleUrl = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + token;
-                RestTemplate restTemplate = new RestTemplate();
-                Map<String, Object> googleData = restTemplate.getForObject(googleUrl, Map.class);
+//        // ✅ NEW: Google Sign-In
+//        @PostMapping("/google-login")
+//        public ResponseEntity<?> googleLogin (@RequestBody Map < String, String > payload) {
+//            String token = payload.get("token");
+//            try {
+//                // Step 1: Verify token using Google API
+//                String googleUrl = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + token;
+//                RestTemplate restTemplate = new RestTemplate();
+//                Map<String, Object> googleData = restTemplate.getForObject(googleUrl, Map.class);
+//
+//                if (googleData == null || googleData.get("email") == null) {
+//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+//                            .body(Map.of("success", false, "message", "Invalid Google token"));
+//                }
+//
+//                String email = googleData.get("email").toString();
+//                String name = googleData.get("name") != null ? googleData.get("name").toString() : "";
+//                String picture = googleData.get("picture") != null ? googleData.get("picture").toString() : "";
+//
+//                // Step 2: Check if user already exists
+//                User user = userService.findByEmail(email);
+//
+//                // Step 3: If not, create new user
+//                if (user == null) {
+//                    user = new User();
+//                    user.setEmail(email);
+//                    user.setFirstName(name);
+//                    user.setPassword("GOOGLE_AUTH"); // dummy placeholder
+//                    user.setPlanType("FREE");
+//                    user.setPlanStartDate(LocalDate.now());
+//                    user.setPlanExpiryDate(LocalDate.now().plusMonths(1)); // Free trial month
+//                    userService.createGoogleUser(user);
+//                }
+//
+//                // Step 4: Prepare response
+//                Map<String, Object> response = new HashMap<>();
+//                response.put("success", true);
+//                response.put("message", "Google login successful");
+//                response.put("email", user.getEmail());
+//                response.put("firstName", user.getFirstName());
+//                response.put("planType", user.getPlanType());
+//                response.put("planExpiryDate", user.getPlanExpiryDate());
+//                return ResponseEntity.ok(response);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                        .body(Map.of("success", false, "message", "Error verifying Google login"));
+//            }
+//        }
 
-                if (googleData == null || googleData.get("email") == null) {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                            .body(Map.of("success", false, "message", "Invalid Google token"));
-                }
 
-                String email = googleData.get("email").toString();
-                String name = googleData.get("name") != null ? googleData.get("name").toString() : "";
-                String picture = googleData.get("picture") != null ? googleData.get("picture").toString() : "";
+            // ✅ Redirect here after successful Google login
+            @GetMapping("/google/success")
+            public void googleLoginSuccess(HttpServletResponse response) throws IOException {
+                // Redirect user to your frontend dashboard
+                response.sendRedirect("https://warrantyvault.in/dashboard.html");
+            }
 
-                // Step 2: Check if user already exists
-                User user = userService.findByEmail(email);
-
-                // Step 3: If not, create new user
-                if (user == null) {
-                    user = new User();
-                    user.setEmail(email);
-                    user.setFirstName(name);
-                    user.setPassword("GOOGLE_AUTH"); // dummy placeholder
-                    user.setPlanType("FREE");
-                    user.setPlanStartDate(LocalDate.now());
-                    user.setPlanExpiryDate(LocalDate.now().plusMonths(1)); // Free trial month
-                    userService.createGoogleUser(user);
-                }
-
-                // Step 4: Prepare response
-                Map<String, Object> response = new HashMap<>();
-                response.put("success", true);
-                response.put("message", "Google login successful");
-                response.put("email", user.getEmail());
-                response.put("firstName", user.getFirstName());
-                response.put("planType", user.getPlanType());
-                response.put("planExpiryDate", user.getPlanExpiryDate());
-                return ResponseEntity.ok(response);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(Map.of("success", false, "message", "Error verifying Google login"));
+// ✅ Optional: Handle failure
+            @GetMapping("/google/failure")
+            public ResponseEntity<?> googleLoginFailure() {
+                return ResponseEntity.status(401).body(Map.of("success", false, "message", "Google login failed"));
             }
 
 
+
+
         }
-    }
+
 
 
 
