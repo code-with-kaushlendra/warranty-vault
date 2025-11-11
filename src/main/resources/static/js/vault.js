@@ -111,6 +111,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     const response = await fetch(`${BASE_URL}/api/vault/upload`, {
       method: "POST",
       body: formData,
+       credentials: "include"
     });
 
     if (!response.ok) {
