@@ -106,18 +106,6 @@ public class UserController {
 //        }
 
 
-            // ✅ Redirect here after successful Google login
-            @GetMapping("/google/success")
-            public void googleLoginSuccess(HttpServletResponse response) throws IOException {
-                // Redirect user to your frontend dashboard
-                response.sendRedirect("https://warrantyvault.in/dashboard.html");
-            }
-
-// ✅ Optional: Handle failure
-            @GetMapping("/google/failure")
-            public ResponseEntity<?> googleLoginFailure() {
-                return ResponseEntity.status(401).body(Map.of("success", false, "message", "Google login failed"));
-            }
 
 
 
