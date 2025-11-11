@@ -1119,6 +1119,36 @@
   gap: 1rem;
 }
 
+.price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-wrapper .currency {
+  padding: 0 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  height: 40px; /* match input height */
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.price-wrapper input {
+  border-radius: 0 8px 8px 0;
+  border: 1px solid #ccc;
+  border-left: none;
+  padding: 0.6rem 0.8rem;
+  height: 40px;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -1141,31 +1171,3 @@
 }
 
 
-.price-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 6px; /* space between ₹ and input */
-}
-
-.price-wrapper .currency {
-  padding: 0 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-right: none; /* visually connect with input */
-  border-radius: 8px 0 0 8px;
-  height: 40px; /* match input height */
-  display: flex;
-  align-items: center;
-  font-size: 1.1rem;
-  user-select: none;
-}
-
-.price-wrapper input {
-  border-radius: 0 8px 8px 0;
-  border: 1px solid #ccc;
-  border-left: none;
-  padding: 0.6rem 0.8rem;
-  height: 40px;
-  flex-grow: 1;
-  box-sizing: border-box;
-}
