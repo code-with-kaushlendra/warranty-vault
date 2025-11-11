@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface VaultService {
 
@@ -20,6 +21,16 @@ public interface VaultService {
     public List<WarrantyVault> getWarrantiesByEmail(String email) ;
 
     public List<WarrantyVault> getVaultsByEmail(String email);
+
+    boolean deleteWarranty(Long id);
+
+    WarrantyVault updateWarranty(Long id, String productName, String category, String brand,
+                                 String purchaseDate, String warrantyExpiry, String serialNumber,
+                                 Double purchasePrice, String notes, MultipartFile warrantyFile) throws Exception;
+
+    Optional<WarrantyVault> getWarrantyById(Long id);
+
+
 
 
 }

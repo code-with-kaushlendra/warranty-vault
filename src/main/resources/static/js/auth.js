@@ -2,6 +2,9 @@
 // AUTHENTICATION - LOGIN & REGISTER
 // ============================================
 
+
+BASE_URL="https://warranty-vault-4v38.onrender.com";
+
 // ✅ Notification Helper
 function showNotification(message, type) {
   const notification = document.createElement("div");
@@ -100,7 +103,7 @@ if (loginForm) {
     if (!isValid) return;
 
     try {
-      const response = await fetch("https://warranty-vault-4v38.onrender.com/api/auth/login", {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -196,7 +199,7 @@ if (registerForm) {
     if (!isValid) return;
 
     try {
-      const response = await fetch("https://warranty-vault-4v38.onrender.com/api/auth/register", {
+      const response = await fetch(`${BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ firstName, lastName, email, phone, password }),
@@ -219,3 +222,11 @@ if (registerForm) {
     }
   });
 }
+
+
+// sign with google
+
+function googleSignIn() {
+    // Redirect to your backend OAuth login endpoint
+    window.location.href = `${BASE_URL}/oauth2/authorization/google`;
+  }

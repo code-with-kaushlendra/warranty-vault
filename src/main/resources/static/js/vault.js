@@ -1,3 +1,6 @@
+BASE_URL="https://warranty-vault-4v38.onrender.com";
+
+
 // =================== File Preview Section ===================
 const fileInput = document.getElementById("warrantyFile");
 const filePreview = document.getElementById("filePreview");
@@ -48,7 +51,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
   // 🧩 STEP 3 — Check how many warranties are already uploaded
   try {
-  const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/vault/list/${email}`);
+  const res = await fetch(`${BASE_URL}/api/vault/list/${email}`);
 
     if (!res.ok) throw new Error("Failed to fetch warranties");
     const warranties = await res.json();
@@ -105,7 +108,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   }
 
   try {
-    const response = await fetch("https://warranty-vault-4v38.onrender.com/api/vault/upload", {
+    const response = await fetch(`${BASE_URL}/api/vault/upload`, {
       method: "POST",
       body: formData,
     });

@@ -1,3 +1,6 @@
+
+BASE_URL="https://warranty-vault-4v38.onrender.com";
+
 async function initiatePayment(planType, amount) {
   try {
     const userEmail = localStorage.getItem("userEmail");
@@ -9,7 +12,7 @@ async function initiatePayment(planType, amount) {
 
     // Step 1: Create order on backend
     const res = await fetch(
-      `https://warranty-vault-4v38.onrender.com/api/payment/create-order?amount=${amount}&email=${userEmail}&planType=${planType}`,
+      `${BASE_URL}/api/payment/create-order?amount=${amount}&email=${userEmail}&planType=${planType}`,
       { method: "POST" }
     );
 
@@ -32,7 +35,7 @@ async function initiatePayment(planType, amount) {
         console.log(response);
 
         // Step 3: Notify backend of successful payment
-        await fetch("https://warranty-vault-4v38.onrender.com/api/payment/verify", {
+        await fetch(`${BASE_URL}/api/payment/verify`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

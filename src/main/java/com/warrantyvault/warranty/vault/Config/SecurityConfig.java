@@ -8,21 +8,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-
-
-
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
-                    .csrf(csrf -> csrf.disable())  // disable CSRF (optional for APIs)
+                    .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(auth -> auth
-                            .anyRequest().permitAll()  // allow all requests without login
+                            .requestMatchers(
+                                    "/api/auth/**",
+                                    "/oauth2/**",
+                                    "/login/**",
+                                    "/error"
+                            ).permitAll()
+                            .anyRequest().authenticated()
                     )
-                    .formLogin(login -> login.disable()) // disable login form
-                    .httpBasic(basic -> basic.disable()); // disable basic auth
+                    .oauth2Login(oauth2 -> oauth2
+                            .defaultSuccessUrl("/api/auth/google/success", true)
+                    );
 
             return http.build();
         }
     }
+
+
 
 

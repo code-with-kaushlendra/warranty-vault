@@ -1,4 +1,14 @@
+
+BASE_URL="https://warranty-vault-4v38.onrender.com";
+
+
 // ✅ Prevent browser from caching the dashboard page
+
+
+
+
+
+
 if (performance.navigation.type === performance.navigation.TYPE_BACK_FORWARD) {
   window.location.reload(true);
 }
@@ -38,7 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ✅ Display warranties on dashboard
+// ===============================
+// DISPLAY WARRANTIES (Table + Edit/Delete)
+// ===============================
 function renderWarranties(warranties) {
   const filesGrid = document.getElementById("filesGrid");
   filesGrid.innerHTML = "";
@@ -52,18 +64,140 @@ function renderWarranties(warranties) {
     return;
   }
 
-  warranties.forEach(w => {
-    const card = document.createElement("div");
-    card.classList.add("file-card");
-    card.innerHTML = `
-      <h3>${w.productName}</h3>
-      <p><strong>Brand:</strong> ${w.brand}</p>
-      <p><strong>Expiry:</strong> ${new Date(w.warrantyExpiry).toLocaleDateString()}</p>
-      <a href="${w.warrantyFilePath}" target="_blank">View Warranty</a>
+  // Build table
+  const table = document.createElement("table");
+  table.classList.add("warranty-table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Purchase Date</th>
+        <th>Expiry Date</th>
+        <th>File</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = table.querySelector("tbody");
+
+  warranties.forEach((w) => {
+    const expiry = new Date(w.warrantyExpiry).toLocaleDateString();
+    const purchase = w.purchaseDate
+      ? new Date(w.purchaseDate).toLocaleDateString()
+      : "—";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${w.productName}</td>
+      <td>${w.brand}</td>
+      <td>${purchase}</td>
+      <td>${expiry}</td>
+      <td><a href="${w.warrantyFilePath}" target="_blank" class="view-link">View</a></td>
+      <td>
+        <button class="btn btn-sm btn-edit" onclick="editWarranty('${w.id}')">✏️ Edit</button>
+        <button class="btn btn-sm btn-delete" onclick="deleteWarranty('${w.id}')">🗑️ Delete</button>
+      </td>
     `;
-    filesGrid.appendChild(card);
+    tbody.appendChild(row);
   });
+
+  filesGrid.appendChild(table);
 }
+
+
+// ===============================
+// DELETE WARRANTY
+// ===============================
+async function deleteWarranty(id) {
+  if (!confirm("Are you sure you want to delete this warranty?")) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/vault/delete/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error("Failed to delete warranty");
+
+    showNotification("✅ Warranty deleted successfully", "success");
+    loadWarranties(); // Refresh list
+  } catch (err) {
+    console.error("Error deleting warranty:", err);
+    showNotification("❌ Failed to delete warranty", "error");
+  }
+}
+
+
+async function editWarranty(id) {
+  try {
+    // ✅ Correct endpoint
+    const res = await fetch(`${BASE_URL}/api/vault/${id}`);
+    if (!res.ok) throw new Error("Failed to fetch warranty details");
+
+    const w = await res.json();
+
+    // Populate modal fields
+    document.getElementById("editId").value = w.id;
+    document.getElementById("editProductName").value = w.productName || "";
+    document.getElementById("editBrand").value = w.brand || "";
+    document.getElementById("editPurchaseDate").value = w.purchaseDate
+      ? w.purchaseDate.split("T")[0]
+      : "";
+    document.getElementById("editExpiryDate").value = w.warrantyExpiry
+      ? w.warrantyExpiry.split("T")[0]
+      : "";
+
+const modal = document.getElementById("editModal");
+modal.style.display = "flex"; // enable flex layout for centering
+
+  } catch (err) {
+    console.error("Error loading warranty:", err);
+    showNotification("❌ Failed to load warranty for editing", "error");
+  }
+}
+
+
+// Save edited warranty
+async function saveEditedWarranty() {
+  const id = document.getElementById("editId").value;
+  const productName = document.getElementById("editProductName").value;
+  const brand = document.getElementById("editBrand").value;
+  const purchaseDate = document.getElementById("editPurchaseDate").value;
+  const warrantyExpiry = document.getElementById("editExpiryDate").value;
+
+    const formData = new FormData();
+    formData.append("productName", productName);
+    formData.append("brand", brand);
+    formData.append("purchaseDate", purchaseDate);
+    formData.append("warrantyExpiry", warrantyExpiry);
+    formData.append("category", "Electronics");
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/vault/edit/${id}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (!res.ok) throw new Error("Failed to update warranty");
+
+    showNotification("✅ Warranty updated successfully", "success");
+    document.getElementById("editModal").style.display = "none";
+    loadWarranties();
+  } catch (err) {
+    console.error("Error updating warranty:", err);
+    showNotification("❌ Failed to update warranty", "error");
+  }
+}
+
+// Close modal
+function closeEditModal() {
+  const modal = document.getElementById("editModal");
+  modal.style.display = "none";
+}
+
+
 
 function logout() {
   // Clear all possible client storage
@@ -106,7 +240,7 @@ async function checkWarrantyReminders() {
   if (!email) return;
 
   try {
-    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/reminders/expiring/${email}`);
+    const res = await fetch(`${BASE_URL}/api/reminders/expiring/${email}`);
     if (!res.ok) throw new Error("Failed to fetch reminders");
 
     const warranties = await res.json();
@@ -151,7 +285,7 @@ async function checkWarrantyReminders() {
 // ===============================
 async function loadUserPlan(email) {
   try {
-    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/dashboard/user/${email}`);
+    const res = await fetch(`${BASE_URL}/api/dashboard/user/${email}`);
 
     if (!res.ok) throw new Error("Failed to load user data");
 
@@ -215,7 +349,7 @@ async function showExpiryNotifications(email) {
   if (!email) return;
 
   try {
-    const res = await fetch(`https://warranty-vault-4v38.onrender.com/api/reminders/expiring/${email}`);
+    const res = await fetch(`${BASE_URL}/api/reminders/expiring/${email}`);
     if (!res.ok) throw new Error("Failed to fetch reminders");
 
     const warranties = await res.json();
@@ -304,7 +438,7 @@ async function loadWarranties() {
 
 
 
-    const response = await fetch(`https://warranty-vault-4v38.onrender.com/api/dashboard/vaults/${email}`);
+    const response = await fetch(`${BASE_URL}/api/dashboard/vaults/${email}`);
     if (!response.ok) throw new Error("Failed to fetch warranties");
 
     const data = await response.json();
@@ -335,35 +469,6 @@ async function loadWarranties() {
   } catch (error) {
     console.error("Error loading warranties:", error);
   }
-}
-
-// ===============================
-// DISPLAY WARRANTIES
-// ===============================
-function renderWarranties(warranties) {
-  const filesGrid = document.getElementById("filesGrid");
-  filesGrid.innerHTML = "";
-
-  if (!warranties || warranties.length === 0) {
-    filesGrid.innerHTML = `
-      <div class="empty-state">
-        <p>📁 No warranties uploaded yet</p>
-        <button class="btn btn-primary" onclick="window.location.href='vault-upload.html'">Upload Now</button>
-      </div>`;
-    return;
-  }
-
-  warranties.forEach((w) => {
-    const card = document.createElement("div");
-    card.classList.add("file-card");
-    card.innerHTML = `
-      <h3>${w.productName}</h3>
-      <p><strong>Brand:</strong> ${w.brand}</p>
-      <p><strong>Expiry:</strong> ${new Date(w.warrantyExpiry).toLocaleDateString()}</p>
-      <a href="${w.warrantyFilePath}" target="_blank">View Warranty</a>
-    `;
-    filesGrid.appendChild(card);
-  });
 }
 
 // ===============================

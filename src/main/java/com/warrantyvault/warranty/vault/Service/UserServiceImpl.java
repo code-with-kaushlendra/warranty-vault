@@ -78,6 +78,21 @@ public class UserServiceImpl implements UserService {
 return  null;
 
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public User createGoogleUser(User user) {
+        user.setPassword("GOOGLE_AUTH");
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+        return user;
+    }
+
     private void updatePlanStatusIfExpired(User user) {
         if (user.getPlanExpiryDate() != null && user.getPlanExpiryDate().isBefore(LocalDate.now())) {
             user.setPlanType("Expired");

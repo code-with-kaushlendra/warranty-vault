@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -69,4 +71,52 @@ public class VaultServiceImpl  implements  VaultService {
     public List<WarrantyVault> getVaultsByEmail(String email) {
         return vaultRepository.findByEmail(email);
     }
+
+    @Override
+    public boolean deleteWarranty(Long id) {
+        Optional<WarrantyVault> vaultOpt = vaultRepository.findById(id);
+        if (vaultOpt.isPresent()) {
+            vaultRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public WarrantyVault updateWarranty(Long id, String productName, String category, String brand, String purchaseDate, String warrantyExpiry, String serialNumber, Double purchasePrice, String notes, MultipartFile warrantyFile) throws Exception {
+        Optional<WarrantyVault> optionalVault = vaultRepository.findById(id);
+        if (optionalVault.isEmpty()) {
+            throw new Exception("Warranty not found with id: " + id);
+        }
+
+        WarrantyVault vault = optionalVault.get();
+        vault.setProductName(productName);
+        vault.setCategory(category);
+        vault.setBrand(brand);
+        vault.setSerialNumber(serialNumber);
+        vault.setPurchasePrice(purchasePrice);
+        vault.setNotes(notes);
+
+        vault.setPurchaseDate(Date.valueOf(purchaseDate));
+        vault.setWarrantyExpiry(Date.valueOf(warrantyExpiry));
+
+
+        // Handle updated warranty file (if uploaded)
+        if (warrantyFile != null && !warrantyFile.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + warrantyFile.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR, fileName);
+            Files.write(filePath, warrantyFile.getBytes());
+            vault.setWarrantyFilePath(filePath.toString());
+        }
+
+        return vaultRepository.save(vault);
+    }
+
+    @Override
+    public Optional<WarrantyVault> getWarrantyById(Long id) {
+        return vaultRepository.findById(id);
+    }
+
+
+
 }

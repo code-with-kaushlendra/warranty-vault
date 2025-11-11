@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-    @RestController
+import java.util.Optional;
+
+@RestController
     @RequestMapping("/api/vault")
     @CrossOrigin(origins = "*") // or your frontend URL (Netlify later)
     public class VaultController {
@@ -18,6 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
         @Autowired
         private UserRepository userRepository;
+
+        // ✅ Get warranty by ID (for edit)
+        @GetMapping("/{id}")
+        public ResponseEntity<WarrantyVault> getWarrantyById(@PathVariable Long id) {
+            Optional<WarrantyVault> vaultOpt = vaultService.getWarrantyById(id);
+            return vaultOpt.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        }
 
         @PostMapping("/upload")
         public ResponseEntity<?> uploadWarranty(
@@ -72,4 +82,49 @@ import org.springframework.web.multipart.MultipartFile;
             }
         }
 
+        @DeleteMapping("/delete/{id}")
+        public ResponseEntity<?> deleteWarranty(@PathVariable Long id){
+            try {
+                boolean deleted = vaultService.deleteWarranty(id);
+                if (deleted) {
+                    return ResponseEntity.ok("Warranty deleted successfully");
+                } else {
+                    return ResponseEntity.badRequest().body("Warranty not found");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Error deleting warranty: " + e.getMessage());
+            }
+        }
+
+        @PutMapping("/edit/{id}")
+        public ResponseEntity<?> editWarranty(@PathVariable Long id,
+                                              @RequestParam("productName") String productName,
+                                              @RequestParam("category") String category,
+                                              @RequestParam(value = "brand", required = false) String brand,
+                                              @RequestParam("purchaseDate") String purchaseDate,
+                                              @RequestParam("warrantyExpiry") String warrantyExpiry,
+                                              @RequestParam(value = "serialNumber", required = false) String serialNumber,
+                                              @RequestParam(value = "purchasePrice", required = false) Double purchasePrice,
+                                              @RequestParam(value = "notes", required = false) String notes,
+                                              @RequestParam(value = "warrantyFile", required = false) MultipartFile warrantyFile){
+
+            try {
+                WarrantyVault updatedVault=vaultService.updateWarranty( id, productName,
+                        category,
+                        brand,
+                        purchaseDate,
+                        warrantyExpiry,
+                        serialNumber,
+                        purchasePrice,
+                        notes,
+                        warrantyFile);
+                return  ResponseEntity.ok(updatedVault);
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Error updating warranty: " + e.getMessage());
+            }
+
+        }
     }
