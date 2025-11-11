@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth/google")
-
 public class GoogleAuthController {
+
     @GetMapping("/success")
     public ResponseEntity<?> loginSuccess(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
@@ -25,9 +27,12 @@ public class GoogleAuthController {
         String name = user.getAttribute("name");
         String email = user.getAttribute("email");
 
-        // 👇 Option 1: redirect user to frontend with query params
+        // ✅ Encode query parameters to avoid IllegalArgumentException
+        String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+        String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
+
         String redirectUrl = "https://warrantyvault.in/dashboard.html?name="
-                + name + "&email=" + email;
+                + encodedName + "&email=" + encodedEmail;
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(redirectUrl))
