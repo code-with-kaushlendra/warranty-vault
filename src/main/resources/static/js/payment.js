@@ -25,7 +25,7 @@ async function initiatePayment(planType, amount) {
 
     // Step 2: Razorpay Checkout Options
     const options = {
-      key: "rzp_test_RTgoh4futOXBLA", // Replace with your test key
+      key: "rzp_live_RUv2nx9Eg3xoQf", // Replace with your test key
       amount: order.amount,
       currency: order.currency,
       name: "Warranty Vault",
