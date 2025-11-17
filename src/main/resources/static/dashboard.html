@@ -84,6 +84,45 @@
     </div>
 </section>
 
+
+<!-- Warranty Files Section -->
+<section class="warranty-files-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Your Warranties</h2>
+            <div class="filter-controls">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search warranties..." onkeyup="filterWarranties()">
+                <select id="filterStatus" class="filter-select" onchange="filterWarranties()">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="expiring">Expiring Soon</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="files-grid" id="filesGrid">
+            <div class="empty-state">
+                <p>📁 No warranties uploaded yet</p>
+                <p>Start by uploading your first warranty document</p>
+                <button class="btn btn-primary" onclick="window.location.href='vault-upload.html'">Upload Now</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Reminders Section -->
+<section class="reminders-section">
+    <div class="container">
+        <h2>Important Reminders</h2>
+        <div class="reminders-grid" id="remindersGrid">
+            <div class="empty-reminders">✓ All set! No reminders at this time.</div>
+        </div>
+    </div>
+</section>
+
+
 <!-- Plan Section -->
 <section class="plan-section">
     <div class="container">
@@ -166,41 +205,8 @@
     </div>
 </section>
 
-<!-- Warranty Files Section -->
-<section class="warranty-files-section">
-    <div class="container">
-        <div class="section-header">
-            <h2>Your Warranties</h2>
-            <div class="filter-controls">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search warranties..." onkeyup="filterWarranties()">
-                <select id="filterStatus" class="filter-select" onchange="filterWarranties()">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="expiring">Expiring Soon</option>
-                    <option value="expired">Expired</option>
-                </select>
-            </div>
-        </div>
 
-        <div class="files-grid" id="filesGrid">
-            <div class="empty-state">
-                <p>📁 No warranties uploaded yet</p>
-                <p>Start by uploading your first warranty document</p>
-                <button class="btn btn-primary" onclick="window.location.href='vault-upload.html'">Upload Now</button>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Reminders Section -->
-<section class="reminders-section">
-    <div class="container">
-        <h2>Important Reminders</h2>
-        <div class="reminders-grid" id="remindersGrid">
-            <div class="empty-reminders">✓ All set! No reminders at this time.</div>
-        </div>
-    </div>
-</section>
 
 <!-- Footer -->
 <footer class="footer">
