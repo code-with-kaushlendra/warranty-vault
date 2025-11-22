@@ -526,3 +526,5 @@ function selectPlan(planType) {
   alert(`Redirecting to payment for ${planType} plan`);
   // Later you can integrate Razorpay/Stripe here
 }
+
+
