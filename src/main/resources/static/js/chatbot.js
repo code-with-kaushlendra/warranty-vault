@@ -1,5 +1,6 @@
 
 BASE_URL="https://warranty-vault-4v38.onrender.com";
+//BASE_URL="http://localhost:8080";
 
 const chatIcon = document.getElementById("chatbot-icon");
     const chatBox = document.getElementById("chatbot-box");
@@ -29,17 +30,20 @@ const chatIcon = document.getElementById("chatbot-icon");
             input.value = "";
 
             // Call backend API
-            fetch(`${BASE_URL}/api/chat`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({message: message})
-            })
-            .then(res => res.text())
-            .then(reply => {
-                chatBody.innerHTML += `<p><b>AI:</b> ${reply}</p>`;
-                chatBody.scrollTop = chatBody.scrollHeight;
-            })
-            .catch(err => {
-                chatBody.innerHTML += `<p><b>AI:</b> Error connecting to server.</p>`;
-            });
+           fetch(`${BASE_URL}/api/chat`, {
+               method: "POST",
+               headers: {"Content-Type": "application/json"},
+               body: JSON.stringify({ message: message+"in short" })
+           })
+           .then(res => res.text())  // VERY IMPORTANT
+           .then(reply => {
+
+               chatBody.innerHTML += `<p><b>AI:</b> ${JSON.parse(reply)?.candidates?.[0]?.content.parts?.[0]?.text}</p>`;
+               chatBody.scrollTop = chatBody.scrollHeight;
+           })
+           .catch(err => {
+               console.error(err);
+               chatBody.innerHTML += `<p><b>AI:</b> Error connecting to server.</p>`;
+           });
+
         }

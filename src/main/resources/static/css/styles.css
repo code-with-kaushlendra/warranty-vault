@@ -3466,6 +3466,7 @@ font-weight:bold;
 
     #chat-input-area {
         display: flex;
+
         border-top: 1px solid #ddd;
     }
 

@@ -22,7 +22,7 @@ public class Auth {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://warranty-vault-xzgh.vercel.app","https://www.warrantyvault.in")); // Your frontend
+        config.setAllowedOrigins(List.of("https://warranty-vault-xzgh.vercel.app","https://www.warrantyvault.in","http://localhost:8080")); // Your frontend
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

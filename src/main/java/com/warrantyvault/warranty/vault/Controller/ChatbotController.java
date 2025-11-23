@@ -8,55 +8,52 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class ChatbotController {
 
     @Value("${gemini.api.key}")
     private String apiKey;
 
-    private final WebClient webClient;
-
-
-    public ChatbotController() {
-        this.webClient = WebClient.builder().build();
-    }
+    private final WebClient webClient = WebClient.builder()
+            .baseUrl("https://generativelanguage.googleapis.com")
+            .build();
 
     @PostMapping("/chat")
-    public ResponseEntity<?> getAPI(@RequestBody UserMessageRequest request){
+    public ResponseEntity<?> chat(@RequestBody UserMessageRequest request) {
 
-        String url="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+        String url = "/v1beta/models/gemini-2.5-flash:generateContent?key=" + "AIzaSyB_Rekfbo-XEs1vwkEwiNvTyV0BUjC1ZiI";
 
         String body = """
                 {
-                  "contents":[
+                  "contents": [
                     {
-                      "parts":[{"text":"%s"}]
+                      "parts": [
+                        { "text": "%s" }
+                      ]
                     }
                   ]
                 }
                 """.formatted(request.getMessage());
 
+        try {
+            String response = webClient.post()
+                    .uri(url)
+                    .header("Content-Type", "application/json")
+                    .bodyValue(body)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-        Mono<String> responseMono = webClient.post()
-                .uri(url)
-                .header("Content-Type", "application/json")
-                .bodyValue(body)
-                .retrieve()
-                .bodyToMono(String.class);
 
-        String response = responseMono.block(); // blocking for simplicity
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            System.out.println("Exception is : " + e);
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
     }
 }
-
-
-
-
-
